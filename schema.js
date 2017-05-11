@@ -15,6 +15,7 @@ var PostsSchema = new Schema({
   tags: String,
   preview: String,
   body: String,
+  views: Number,
   update_at: Number,
   create_at: Number
 }, {versionKey: false});
