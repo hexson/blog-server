@@ -1,0 +1,7 @@
+{
+  "name": "api.hexson.cn",
+  "script": "/home/hexson/api.hexson.cn/bin/www",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
