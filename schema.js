@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost/blog');
+mongoose.connect('mongodb://hexson:hq123456@localhost:20002/blog');
 mongoose.Promise = require('bluebird');
 
 var CounterId = new Schema({
@@ -16,20 +16,20 @@ var PostsSchema = new Schema({
   preview: String,
   body: String,
   views: Number,
-  update_at: Number,
-  create_at: Number
+  updated_at: Number,
+  created_at: Number
 }, {versionKey: false});
 var ClassifySchema = new Schema({
   id: Number,
   name: String,
-  update_at: Number,
-  create_at: Number
+  updated_at: Number,
+  created_at: Number
 }, {versionKey: false});
 var TagSchema = new Schema({
   id: Number,
   name: String,
-  update_at: Number,
-  create_at: Number
+  updated_at: Number,
+  created_at: Number
 }, {versionKey: false});
 
 var schema = {
