@@ -15,9 +15,7 @@ router.get('/get', function(req, res, next) {
     let queryConf = page == 1 ? {} : {'id': {'$lt': lastId}};
     db.Post.find(queryConf, {_id: 0}, function(e, d){
       if (e) return res.send(e);
-      setTimeout(function(){
-        res.send(d);
-      }, 2000)
+      res.send(d);
     })
     .sort({id: -1})
     .limit(limit)
@@ -27,7 +25,8 @@ router.get('/get', function(req, res, next) {
 });
 
 router.post('/create', function(req, res, next) {
-  let { title, classify, tags, preview, body } = req.body;
+  let { title, classify, tags, preview, body, auth } = req.body;
+  if (auth != '123456') return res.send({code: 0, msg: '非法请求'});
   if (!title) return res.send({code: 0, msg: '标题不能为空'});
   if (!classify) return res.send({code: 0, msg: '分类不能为空'});
   if (!tags) return res.send({code: 0, msg: '标签不能为空'});
