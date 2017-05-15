@@ -31,12 +31,17 @@ var TagSchema = new Schema({
   updated_at: Number,
   created_at: Number
 }, {versionKey: false});
+var tests = new Schema({
+  name: String,
+  index: Number
+}, {versionKey: false});
 
 var schema = {
   $id: mongoose.model('counter', CounterId),
   Post: mongoose.model('post', PostsSchema),
   Classify: mongoose.model('Clas', ClassifySchema),
-  Tag: mongoose.model('tag', TagSchema)
+  Tag: mongoose.model('tag', TagSchema),
+  tests: mongoose.model('test', tests)
 };
 
 module.exports = schema;
