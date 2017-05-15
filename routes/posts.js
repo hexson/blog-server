@@ -6,22 +6,19 @@ var router = express.Router();
 
 router.get('/get', function(req, res, next) {
   let { limit, page } = req.query;
-  limit = +limit || 10;
-  page = +page || 1;
-  db.Post.find({}, {_id: 0}, function(err, doc){
-    if (err) return res.send(err);
-    if (!doc.length) return res.send(doc);
-    let lastId = doc.pop().id;
-    let queryConf = page == 1 ? {} : {'id': {'$lt': lastId}};
-    db.Post.find(queryConf, {_id: 0}, function(e, d){
-      if (e) return res.send(e);
-      res.send(d);
-    })
-    .sort({id: -1})
-    .limit(limit)
+  limit = limit > 0 ? +limit : 10;
+  page = page > 0 ? +page : 1;
+  db.Post.count({}, function(e, n){
+    if (e) return res.send(e);
+    db.Post.find({}, {_id: 0}, function(err, doc){
+      if (err) return res.send(err);
+      res.send({
+        totalPage: Math.ceil(n / limit),
+        currentPage: page,
+        data: doc
+      });
+    }).sort({id: -1}).skip(limit * (page - 1)).limit(limit)
   })
-  .sort({id: -1})
-  .limit(limit * ((page - 1) || 1))
 });
 
 router.post('/create', function(req, res, next) {
