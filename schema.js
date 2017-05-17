@@ -36,12 +36,24 @@ var tests = new Schema({
   index: Number
 }, {versionKey: false});
 
+
+
+// admin
+var Admin = new Schema({
+  account: String,
+  password: String,
+  created_at: Number
+}, {versionKey: false});
+
+
 var schema = {
   $id: mongoose.model('counter', CounterId),
   Post: mongoose.model('post', PostsSchema),
-  Classify: mongoose.model('Clas', ClassifySchema),
+  Classify: mongoose.model('clas', ClassifySchema),
   Tag: mongoose.model('tag', TagSchema),
-  tests: mongoose.model('test', tests)
+  tests: mongoose.model('test', tests),
+  // admin
+  Admin: mongoose.model('admin', Admin)
 };
 
 module.exports = schema;
