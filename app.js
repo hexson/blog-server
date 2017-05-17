@@ -10,12 +10,13 @@ var users = require('./routes/users');
 var posts = require('./routes/posts');
 var tags = require('./routes/tags');
 var classify = require('./routes/classify');
+var admin = require('./routes/admin');
 
 var app = express();
 
 // Enable All CORS Requests
-// var cors = require('cors');
-// app.use(cors);
+var cors = require('cors');
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +35,7 @@ app.use('/users', users);
 app.use('/posts', posts);
 app.use('/tags', tags);
 app.use('/classify', classify);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
