@@ -40,7 +40,7 @@ router.post('/create', function(req, res, next) {
       body: body,
       views: 0,
       updated_at: null,
-      created_at: $u.getTime()
+      created_at: $u.now()
     });
     posts
     .save()

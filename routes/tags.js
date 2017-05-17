@@ -21,7 +21,7 @@ router.post('/create', function(req, res, next) {
       id: doc.sequence_value,
       name: name,
       updated_at: null,
-      created_at: $u.getTime()
+      created_at: $u.now()
     });
     tags
     .save()
