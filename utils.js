@@ -4,7 +4,7 @@ var utils = {
   /*
    * @Get now timestamp
    */
-  getTime: function(){
+  now: function(){
     return (Date.now() + '').substr(0, 10);
   },
   /*
@@ -36,7 +36,8 @@ var utils = {
    */
   md5: function(str){
     // return md5(str);
-  }
+  },
+  token: null
 };
 
 module.exports = utils;
