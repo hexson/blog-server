@@ -10,6 +10,12 @@ var router = express.Router();
 //     res.send(200);
 //   }else next();
 // });
+router.all('*', function(req, res, next) {
+  console.log(req.url);
+  console.log(req.headers.token)
+  next();
+});
+
 
 router.get('/', function(req, res, next) {
   res.send('<body style="padding: 50px;font: 14px \'Lucida Grande\', Helvetica, Arial, sans-serif;"><h1>api.hexson.cn</h1><p>Welcome to my site</p></body>');
