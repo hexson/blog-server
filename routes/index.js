@@ -11,8 +11,9 @@ var router = express.Router();
 //   }else next();
 // });
 router.all('*', function(req, res, next) {
-  console.log(req.url);
-  console.log(req.headers.token)
+  console.log(req.url.indexOf('/admin/')==0);
+  console.log(req.headers.token);
+  console.log($u.token);
   next();
 });
 

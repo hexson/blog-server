@@ -14,7 +14,7 @@ router.post('/', function(req, res, next) {
     if (!doc) res.send({code: 0, msg: '用户名或密码不正确'});
     if (doc){
       $u.token = $u.getRandomStr(32, true);
-      res.send({code: 1, msg: '登录成功', token: $u.getRandomStr(32, 1)});
+      res.send({code: 1, msg: '登录成功', token: $u.token});
     }
   })
 });
