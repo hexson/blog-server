@@ -8,7 +8,7 @@ var CounterId = new Schema({
   table_name: String,
   sequence_value: Number
 }, {versionKey: false});
-var PostsSchema = new Schema({
+var PostSchema = new Schema({
   id: Number,
   title: String,
   classify: String,
@@ -31,10 +31,6 @@ var TagSchema = new Schema({
   updated_at: Number,
   created_at: Number
 }, {versionKey: false});
-var tests = new Schema({
-  name: String,
-  index: Number
-}, {versionKey: false});
 
 
 
@@ -48,10 +44,9 @@ var Admin = new Schema({
 
 var schema = {
   $id: mongoose.model('counter', CounterId),
-  Post: mongoose.model('post', PostsSchema),
-  Classify: mongoose.model('clas', ClassifySchema),
+  Post: mongoose.model('post', PostSchema),
+  Classify: mongoose.model('classify', ClassifySchema),
   Tag: mongoose.model('tag', TagSchema),
-  tests: mongoose.model('test', tests),
   // admin
   Admin: mongoose.model('admin', Admin)
 };
