@@ -5,14 +5,15 @@ var db = require('../../schema');
 
 
 router.get('/get', function(req, res, next) {
-  let { limit, page } = req.query;
+  let { limit, page, kw } = req.query;
   limit = limit > 0 ? +limit : 10;
   page = page > 0 ? +page : 1;
   console.log('token: ', $u.token);
   let hide_mongoid = {_id: 0};
+  let query = kw ? {title: {$regex: kw, $options: 'i'}, body: {$regex: kw, $options: 'i'}} : {};
   db.Post.count({}, function(e, n){
     if (e) return res.send(e);
-    db.Post.find({}, hide_mongoid, function(err, doc){
+    db.Post.find(query, hide_mongoid, function(err, doc){
       if (err) return res.send(err);
       db.Classify.find({}, hide_mongoid, function(cerr, classifys){
         if (cerr) return res.send(cerr);
