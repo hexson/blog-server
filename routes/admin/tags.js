@@ -34,11 +34,11 @@ router.get('/get/:id', function(req, res, next) {
 router.post('/add', function(req, res, next) {
   let { name } = req.body;
   if (!name) return res.send({code: 0, msg: '标签名不能为空'});
-  db.$id.findOneAndUpdate({table_name: 'tags'}, {$inc: {sequence_value: 1}}, {new: true}, function(err, doc){
-    if (err) return res.send(err);
-    db.Tag.count({name: name}, function(e, n){
-      if (e) return res.send(e);
-      if (n > 0) return res.send({code: 0, msg: '标签名已经存在'});
+  db.Tag.count({name: name}, function(e, n){
+    if (e) return res.send(e);
+    if (n > 0) return res.send({code: 0, msg: '标签名已经存在'});
+    db.$id.findOneAndUpdate({table_name: 'tags'}, {$inc: {sequence_value: 1}}, {new: true}, function(err, doc){
+      if (err) return res.send(err);
       let tag = new db.Tag({
         id: doc.sequence_value,
         name: name,
@@ -82,7 +82,7 @@ router.post('/del/:id', function(req, res, next) {
   let { id } = req.params;
   db.Tag.deleteOne({id: id}, function(err, result){
     if (err) return res.send(err);
-    if (result.ok) res.send({code: 1, msg: '删除标签成功'});
+    if (result.result.ok) res.send({code: 1, msg: '删除标签成功'});
     else res.send({code: 0, msg: '删除标签失败'});
   })
 });
