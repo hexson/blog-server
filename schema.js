@@ -16,6 +16,7 @@ var PostSchema = new Schema({
   preview: String,
   body: String,
   views: Number,
+  show: Number,
   updated_at: Number,
   created_at: Number
 }, {versionKey: false});
