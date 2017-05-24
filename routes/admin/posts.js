@@ -8,7 +8,6 @@ router.get('/get', function(req, res, next) {
   let { limit, page, kw } = req.query;
   limit = limit > 0 ? +limit : 10;
   page = page > 0 ? +page : 1;
-  console.log('kw: ', kw);
   let hide_mongoid = {_id: 0};
   let query = kw ? {$or: [{title: {$regex: kw, $options: 'i'}}, {body: {$regex: kw, $options: 'i'}}]} : {};
   db.Post.count({}, function(e, n){
@@ -115,7 +114,7 @@ router.post('/setshow/:id', function(req, res, next) {
   if (show != 0 && show != 1) return res.send({code: 0, msg: 'show 值非法'});
   db.Post.updateOne({id: id}, {$set: {show: show}}, function(err, result){
     if (err) return res.send(err);
-    if (result.result.ok) res.send({code: 1, msg: '设置成功'});
+    if (result.n > 0) res.send({code: 1, msg: '设置成功'});
     else res.send({code: 0, msg: '设置失败'});
   })
 });
