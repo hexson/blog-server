@@ -6,7 +6,8 @@ mongoose.Promise = require('bluebird');
 
 var CounterId = new Schema({
   table_name: String,
-  sequence_value: Number
+  sequence_value: Number,
+  created_at: Number
 }, {versionKey: false});
 var PostSchema = new Schema({
   id: Number,
