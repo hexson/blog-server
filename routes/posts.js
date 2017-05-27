@@ -5,51 +5,39 @@ var router = express.Router();
 
 
 router.get('/get', function(req, res, next) {
-  let { limit, page } = req.query;
+  let { limit, page, kw } = req.query;
   limit = limit > 0 ? +limit : 10;
   page = page > 0 ? +page : 1;
+  let hide_mongoid = {_id: 0};
+  let query = kw ? {$or: [{title: {$regex: kw, $options: 'i'}}, {body: {$regex: kw, $options: 'i'}}]} : {};
   db.Post.count({}, function(e, n){
     if (e) return res.send(e);
-    db.Post.find({}, {_id: 0}, function(err, doc){
+    db.Post.find(query, hide_mongoid, function(err, doc){
       if (err) return res.send(err);
-      res.send({
-        totalPage: Math.ceil(n / limit),
-        currentPage: page,
-        data: doc
-      });
+      db.Classify.find({}, hide_mongoid, function(cerr, classifys){
+        if (cerr) return res.send(cerr);
+        db.Tag.find({}, hide_mongoid, function(terr, tags){
+          if (terr) return res.send(terr);
+          res.send({
+            totalPage: Math.ceil(n / limit),
+            currentPage: page,
+            count: n,
+            data: doc,
+            classify: classifys,
+            tags: tags
+          });
+        })
+      })
     }).sort({id: -1}).skip(limit * (page - 1)).limit(limit)
   })
 });
 
-router.post('/create', function(req, res, next) {
-  let { title, classify, tags, preview, body, auth } = req.body;
-  if (auth != '123456') return res.send({code: 0, msg: '非法请求'});
-  if (!title) return res.send({code: 0, msg: '标题不能为空'});
-  if (!classify) return res.send({code: 0, msg: '分类不能为空'});
-  if (!tags) return res.send({code: 0, msg: '标签不能为空'});
-  if (!preview) return res.send({code: 0, msg: '预览不能为空'});
-  if (!body) return res.send({code: 0, msg: '内容不能为空'});
-  db.$id.findOneAndUpdate({table_name: 'posts'}, {$inc: {sequence_value: 1}}, {new: true}, function(err, doc){
+router.get('/get/:id', function(req, res, next) {
+  let { id } = req.params;
+  db.Post.findOne({id: id}, {_id: 0}, function(err, doc){
     if (err) return res.send(err);
-    let posts = new db.Post({
-      id: doc.sequence_value,
-      title: title,
-      classify: classify,
-      tags: tags,
-      preview: preview,
-      body: body,
-      views: 0,
-      updated_at: null,
-      created_at: $u.now()
-    });
-    posts
-    .save()
-    .then((r) => {
-      res.send(r);
-    })
-    .catch((e) => {
-      res.send(e);
-    })
+    if (doc) res.send({code: 1, data: doc});
+    else res.send({code: 0, msg: '没有查询到该条数据'});
   })
 });
 
