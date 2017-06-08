@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var posts = require('./routes/posts');
 var tags = require('./routes/tags');
 var classify = require('./routes/classify');
+var count = require('./routes/count');
 var admin = require('./routes/admin');
 
 var app = express();
@@ -35,6 +36,7 @@ app.use('/users', users);
 app.use('/posts', posts);
 app.use('/tags', tags);
 app.use('/classify', classify);
+app.use('/count', count);
 app.use('/admin', admin);
 
 // catch 404 and forward to error handler
